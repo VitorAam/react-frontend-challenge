@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import type { ColumnDef } from '@tanstack/react-table'
 
 import type { Movie } from '@/entities/movie'
@@ -97,16 +98,13 @@ export const buildMoviesColumns = (
         enableSorting: false,
         cell: ({ row }) => (
             <div className="flex justify-end">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="cursor-pointer"
-                    onClick={() => {
-                        // TODO: navegar para /movie/:id quando a rota existir
-                        console.info('detalhes', row.original.id)
-                    }}
-                >
-                    Detalhes
+                <Button asChild variant="outline" size="sm" className="cursor-pointer">
+                    <Link
+                        to="/movie/$movieId"
+                        params={{ movieId: String(row.original.id) }}
+                    >
+                        Detalhes
+                    </Link>
                 </Button>
             </div>
         ),

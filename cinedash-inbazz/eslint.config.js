@@ -19,4 +19,10 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['src/widgets/movies-table/**/*.{ts,tsx}'],
+    rules: {
+      'react-hooks/incompatible-library': 'off',
+    },
+  },
 ])

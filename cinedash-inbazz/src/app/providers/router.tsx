@@ -8,6 +8,7 @@ import {
 import { RootLayout } from '../layouts/root-layout'
 import { LoginPage } from '@/pages/login'
 import { DashboardPage } from '@/pages/dashboard'
+import { MovieDetailsPage } from '@/pages/movie-details'
 import { useAuthStore } from '@/features/auth'
 
 const isAuthenticated = () => {
@@ -40,9 +41,15 @@ const dashboardRoute = createRoute({
   component: DashboardPage,
 })
 
+const movieDetailsRoute = createRoute({
+  getParentRoute: () => privateRoute,
+  path: '/movie/$movieId',
+  component: MovieDetailsPage,
+})
+
 const routeTree = rootRoute.addChildren([
   loginRoute,
-  privateRoute.addChildren([dashboardRoute]),
+  privateRoute.addChildren([dashboardRoute, movieDetailsRoute]),
 ])
 
 export const router = createRouter({

@@ -16,7 +16,7 @@ export const Header = () => {
                     {loggedIn && (
                         <nav className="flex items-center gap-4 text-sm">
                             <Link
-                                to="/dashboard"
+                                to="/movies"
                                 className="text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
                             >
                                 Descoberta

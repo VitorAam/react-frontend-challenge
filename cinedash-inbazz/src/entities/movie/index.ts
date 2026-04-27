@@ -1,4 +1,7 @@
 export * from './model/movie.types'
+export * from './model/movie-details.types'
 export * from './api/movies.api'
 export * from './api/movies.queries'
+export * from './api/movie-details.api'
+export * from './api/movie-details.queries'
 export * from './lib/image'

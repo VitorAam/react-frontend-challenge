@@ -49,7 +49,7 @@ export const MoviesTable = ({ data }: MoviesTableProps) => {
 
     const columns = useMemo(() => buildMoviesColumns(genreMap), [genreMap])
 
-   const table = useReactTable({
+    const table = useReactTable({
         data,
         columns,
         state: { sorting },

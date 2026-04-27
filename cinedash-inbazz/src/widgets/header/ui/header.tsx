@@ -7,7 +7,7 @@ export const Header = () => {
     const loggedIn = useAuthStore((state) => state.isAuthenticated)
 
     return (
-        <header className="w-full border-b bg-background">
+        <header className="w-full border-b bg-background sticky top-0 z-10">
             <div className="mx-auto flex h-14 items-center justify-between px-4">
                 <div className="flex items-center gap-2">
                     <span className="text-lg font-semibold">Cinedash Inbazz</span>

@@ -2,7 +2,7 @@ import { LoginForm } from '@/features/auth'
 
 export const LoginPage = () => {
   return (
-    <div>
+    <div className="h-full">
       <LoginForm />
     </div>
   )

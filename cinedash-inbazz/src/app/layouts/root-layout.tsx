@@ -4,12 +4,12 @@ import { AuthWatcher } from '@/features/auth'
 
 export const RootLayout = () => {
     return (
-        <div className="min-h-screen bg-background">
+        <div className="flex h-screen flex-col bg-background">
             <AuthWatcher />
 
             <Header />
 
-            <main>
+            <main className="flex-1 overflow-auto">
                 <Outlet />
             </main>
         </div>

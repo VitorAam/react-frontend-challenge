@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
 import { useAuthStore } from '@/features/auth'
-import { ThemeToggle } from '@/features/theme/ui/theme-toggle'
+import { ThemeToggle } from '@/features/theme'
 import { Button } from '@/shared/ui/button'
 
 export const Header = () => {

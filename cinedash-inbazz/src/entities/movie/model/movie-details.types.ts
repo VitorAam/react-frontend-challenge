@@ -1,4 +1,7 @@
-import type { Genre } from '@/entities/genre'
+export type MovieDetailsGenre = {
+    id: number
+    name: string
+}
 
 export type CastMember = {
     id: number
@@ -68,7 +71,7 @@ export type MovieDetails = {
     vote_average: number
     vote_count: number
     popularity: number
-    genres: Genre[]
+    genres: MovieDetailsGenre[]
     production_companies: ProductionCompany[]
     spoken_languages: { iso_639_1: string; name: string }[]
     credits: MovieCredits

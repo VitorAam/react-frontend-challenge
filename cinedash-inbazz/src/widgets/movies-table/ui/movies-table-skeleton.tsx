@@ -16,13 +16,13 @@ export const MoviesTableSkeleton = ({ rows = 8 }: { rows?: number }) => {
             <TableHeader>
                 <TableRow>
                     {HEADERS.map((label, index) => (
-                        <TableHead key={index}>{label}</TableHead>
+                        <TableHead key={'label-' +index}>{label}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {Array.from({ length: rows }).map((_, rowIndex) => (
-                    <TableRow key={rowIndex}>
+                    <TableRow key={'row-' + rowIndex}>
                         <TableCell>
                             <div className="flex items-center gap-3">
                                 <Skeleton className="h-14 w-10 rounded-sm" />

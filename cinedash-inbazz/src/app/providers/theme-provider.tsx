@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useThemeStore } from '@/features/theme/model/theme.store'
+import { useThemeStore } from '@/features/theme'
 
 export const ThemeProvider = () => {
   const theme = useThemeStore((state) => state.theme)

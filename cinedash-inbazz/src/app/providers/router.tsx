@@ -23,6 +23,11 @@ const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: LoginPage,
+  beforeLoad: () => {
+    if (isAuthenticated()) {
+      throw redirect({ to: '/movies' })
+    }
+  },
 })
 
 const privateRoute = createRoute({

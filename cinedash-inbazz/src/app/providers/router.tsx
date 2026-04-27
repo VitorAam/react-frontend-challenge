@@ -1,17 +1,45 @@
-import { Loginpage } from '@/pages/login'
-import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router'
+import {
+  createRouter,
+  createRootRoute,
+  createRoute,
+  redirect,
+  Outlet,
+} from '@tanstack/react-router'
+
+import { LoginPage } from '@/pages/login'
+import { useAuthStore } from '@/features/auth'
+
+const isAuthenticated = () => {
+  return useAuthStore.getState().isAuthenticated
+}
 
 const rootRoute = createRootRoute({
-  component: () => <Loginpage />,
+  component: Outlet,
 })
 
-const indexRoute = createRoute({
+const loginRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: () => <div>Home</div>,
+  component: LoginPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute])
+const dashboardRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard',
+  beforeLoad: () => {
+    if (!isAuthenticated()) {
+      throw redirect({
+        to: '/',
+      })
+    }
+  },
+  component: () => <div>Dashboard</div>,
+})
+
+const routeTree = rootRoute.addChildren([
+  loginRoute,
+  dashboardRoute,
+])
 
 export const router = createRouter({
   routeTree,

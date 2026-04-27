@@ -3,9 +3,9 @@ import {
   createRootRoute,
   createRoute,
   redirect,
-  Outlet,
 } from '@tanstack/react-router'
 
+import { RootLayout } from '../layouts/root-layout'
 import { LoginPage } from '@/pages/login'
 import { useAuthStore } from '@/features/auth'
 
@@ -14,7 +14,7 @@ const isAuthenticated = () => {
 }
 
 const rootRoute = createRootRoute({
-  component: Outlet,
+  component: RootLayout,
 })
 
 const loginRoute = createRoute({
@@ -23,22 +23,25 @@ const loginRoute = createRoute({
   component: LoginPage,
 })
 
-const dashboardRoute = createRoute({
+const privateRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/dashboard',
+  id: 'private',
   beforeLoad: () => {
     if (!isAuthenticated()) {
-      throw redirect({
-        to: '/',
-      })
+      throw redirect({ to: '/' })
     }
   },
+})
+
+const dashboardRoute = createRoute({
+  getParentRoute: () => privateRoute,
+  path: '/dashboard',
   component: () => <div>Dashboard</div>,
 })
 
 const routeTree = rootRoute.addChildren([
   loginRoute,
-  dashboardRoute,
+  privateRoute.addChildren([dashboardRoute]),
 ])
 
 export const router = createRouter({

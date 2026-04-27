@@ -1,6 +1,6 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { fetchMovies } from './movies.api'
-import type { MoviesQueryFilters } from '../model/movie.types'
+import type { MoviesQueryFilters, MoviesResponse } from '../model/movie.types'
 
 export const movieKeys = {
     all: ['movies'] as const,
@@ -9,10 +9,26 @@ export const movieKeys = {
         [...movieKeys.lists(), filters] as const,
 }
 
+const haveSameFilters = (
+    a: MoviesQueryFilters,
+    b: MoviesQueryFilters
+): boolean =>
+    a.search === b.search &&
+    a.genreId === b.genreId &&
+    a.year === b.year &&
+    a.minRating === b.minRating &&
+    a.sortBy === b.sortBy
+
 export const useMoviesQuery = (filters: MoviesQueryFilters) =>
     useQuery({
         queryKey: movieKeys.list(filters),
         queryFn: ({ signal }) => fetchMovies(filters, signal),
-        placeholderData: keepPreviousData,
+        placeholderData: (previousData: MoviesResponse | undefined, previousQuery) => {
+            if (!previousData || !previousQuery) return undefined
+            const previousFilters = previousQuery.queryKey[2]
+            return haveSameFilters(previousFilters, filters)
+                ? previousData
+                : undefined
+        },
         staleTime: 1000 * 60,
     })

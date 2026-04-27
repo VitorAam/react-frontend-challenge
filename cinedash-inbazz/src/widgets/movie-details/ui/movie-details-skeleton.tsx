@@ -36,7 +36,7 @@ export const MovieDetailsSkeleton = () => {
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
                     {Array.from({ length: 6 }).map((_, i) => (
                         <div
-                            key={'skeleton-map-' + i}
+                            key={'skeleton-cast-' + i}
                             className="flex flex-col items-center gap-2"
                         >
                             <Skeleton className="aspect-square w-full rounded-full" />

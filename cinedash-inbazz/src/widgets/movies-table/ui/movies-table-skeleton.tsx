@@ -16,7 +16,7 @@ export const MoviesTableSkeleton = ({ rows = 8 }: { rows?: number }) => {
             <TableHeader>
                 <TableRow>
                     {HEADERS.map((label, index) => (
-                        <TableHead key={'label-' +index}>{label}</TableHead>
+                        <TableHead key={'label-' + index}>{label}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>

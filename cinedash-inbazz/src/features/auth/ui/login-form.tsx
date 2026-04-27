@@ -28,7 +28,7 @@ export const LoginForm = () => {
 
     const onSubmit = (data: LoginFormData) => {
         login(data.email)
-        navigate({ to: '/dashboard' })
+        navigate({ to: '/movies' })
     }
 
     return (

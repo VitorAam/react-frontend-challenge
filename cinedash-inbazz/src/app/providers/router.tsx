@@ -7,6 +7,7 @@ import {
 
 import { RootLayout } from '../layouts/root-layout'
 import { LoginPage } from '@/pages/login'
+import { DashboardPage } from '@/pages/dashboard'
 import { useAuthStore } from '@/features/auth'
 
 const isAuthenticated = () => {
@@ -35,8 +36,8 @@ const privateRoute = createRoute({
 
 const dashboardRoute = createRoute({
   getParentRoute: () => privateRoute,
-  path: '/dashboard',
-  component: () => <div>Dashboard</div>,
+  path: '/movies',
+  component: DashboardPage,
 })
 
 const routeTree = rootRoute.addChildren([

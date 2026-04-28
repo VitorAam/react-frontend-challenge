@@ -2,11 +2,13 @@ import { Link } from '@tanstack/react-router'
 
 import { useAuthStore } from '@/features/auth'
 import { ThemeToggle } from '@/features/theme'
+import { useWatchlistCount } from '@/features/watchlist'
 import { Button } from '@/shared/ui/button'
 
 export const Header = () => {
     const logout = useAuthStore((state) => state.logout)
     const loggedIn = useAuthStore((state) => state.isAuthenticated)
+    const watchlistCount = useWatchlistCount()
 
     return (
         <header className="w-full border-b bg-background sticky top-0 z-10">
@@ -20,6 +22,17 @@ export const Header = () => {
                                 className="text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
                             >
                                 Descoberta
+                            </Link>
+                            <Link
+                                to="/watchlist"
+                                className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground [&.active]:text-foreground"
+                            >
+                                Minha lista
+                                {watchlistCount > 0 && (
+                                    <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-medium text-primary-foreground">
+                                        {watchlistCount}
+                                    </span>
+                                )}
                             </Link>
                         </nav>
                     )}

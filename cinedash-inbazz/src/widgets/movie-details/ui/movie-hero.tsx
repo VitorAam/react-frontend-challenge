@@ -19,17 +19,19 @@ export const MovieHero = ({ movie }: MovieHeroProps) => {
     const poster = getPosterUrl(movie.poster_path, 'w500')
 
     return (
-        <section className="relative isolate overflow-hidden rounded-xl border bg-card">
-            {backdrop && (
-                <div
-                    className="absolute inset-0 -z-10 bg-cover bg-center opacity-25 dark:opacity-30"
-                    style={{ backgroundImage: `url(${backdrop})` }}
-                    aria-hidden
-                />
-            )}
-            <div className="absolute inset-0 -z-10 bg-linear-to-r from-background via-background/85 to-background/50" />
+        <section className="relative min-h-[360px] overflow-hidden rounded-xl border bg-card md:min-h-[420px]">
+            <div className="pointer-events-none absolute inset-0 z-0">
+                {backdrop && (
+                    <div
+                        className="absolute inset-0 bg-cover bg-center opacity-25 dark:opacity-30"
+                        style={{ backgroundImage: `url(${backdrop})` }}
+                        aria-hidden
+                    />
+                )}
+                <div className="absolute inset-0 bg-linear-to-r from-background via-background/85 to-background/50" />
+            </div>
 
-            <div className="grid gap-6 p-6 md:grid-cols-[220px_1fr] md:gap-8 md:p-10">
+            <div className="relative z-10 grid gap-6 p-6 md:grid-cols-[220px_1fr] md:gap-8 md:p-10">
                 <div className="hidden md:block">
                     <div className="aspect-2/3 w-full overflow-hidden rounded-lg bg-muted shadow-lg ring-1 ring-foreground/10">
                         {poster ? (
@@ -97,6 +99,7 @@ export const MovieHero = ({ movie }: MovieHeroProps) => {
                     <div className="flex flex-wrap items-center gap-2 pt-2">
                         <WatchlistToggle
                             size="lg"
+                            className="cursor-pointer"
                             movie={{
                                 id: movie.id,
                                 title: movie.title,

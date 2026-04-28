@@ -18,6 +18,7 @@ export const MovieDetailsPage = () => {
     const isValidId = Number.isFinite(numericId) && numericId > 0
 
     const detailsQuery = useMovieDetails(numericId)
+    const data = detailsQuery.data
 
     return (
         <div className="mx-auto flex h-full w-full max-w-6xl flex-col gap-6 p-6">
@@ -52,15 +53,15 @@ export const MovieDetailsPage = () => {
                 />
             )}
 
-            {isValidId && detailsQuery.data && (
+            {isValidId && data && (
                 <>
-                    <MovieHero movie={detailsQuery.data} />
-                    <MovieOverview overview={detailsQuery.data.overview} />
+                    <MovieHero movie={data} />
+                    <MovieOverview overview={data.overview} />
                     <MovieTrailer
-                        videos={detailsQuery.data.videos}
-                        title={detailsQuery.data.title}
+                        videos={data.videos}
+                        title={data.title}
                     />
-                    <MovieCast cast={detailsQuery.data.credits.cast} />
+                    <MovieCast cast={data.credits.cast} />
                 </>
             )}
         </div>

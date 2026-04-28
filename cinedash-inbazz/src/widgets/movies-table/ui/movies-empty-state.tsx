@@ -1,11 +1,15 @@
+import type { ReactNode } from 'react'
+
 type MoviesEmptyStateProps = {
     title: string
     description?: string
+    children?: ReactNode
 }
 
 export const MoviesEmptyState = ({
     title,
     description,
+    children,
 }: MoviesEmptyStateProps) => {
     return (
         <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed bg-card/40 p-10 text-center">
@@ -15,6 +19,7 @@ export const MoviesEmptyState = ({
                     {description}
                 </p>
             )}
+            {children}
         </div>
     )
 }

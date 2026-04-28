@@ -20,7 +20,10 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/widgets/movies-table/**/*.{ts,tsx}'],
+    files: [
+      'src/widgets/movies-table/**/*.{ts,tsx}',
+      'src/widgets/watchlist-table/**/*.{ts,tsx}',
+    ],
     rules: {
       'react-hooks/incompatible-library': 'off',
     },

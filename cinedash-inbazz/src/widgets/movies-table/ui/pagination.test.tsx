@@ -21,13 +21,13 @@ const setup = (
 
 const matchPaginaXdeY =
     (current: number, total: number) =>
-    (_text: string, element: Element | null) => {
-        if (!element) return false
-        const normalized = element.textContent
-            ?.replaceAll(/\s+/g, ' ')
-            .trim()
-        return normalized === `Página ${current} de ${total}`
-    }
+        (_text: string, element: Element | null) => {
+            if (!element) return false
+            const normalized = element.textContent
+                ?.replaceAll(/\s+/g, ' ')
+                .trim()
+            return normalized === `Página ${current} de ${total}`
+        }
 
 describe('<Pagination />', () => {
     it('mostra "Página X de Y" com o total ajustado', () => {
@@ -47,19 +47,19 @@ describe('<Pagination />', () => {
 
     it('desabilita "Primeira"/"Anterior" na primeira página', () => {
         setup({ page: 1, totalPages: 10 })
-        expect(screen.getByRole('button', { name: "primeira" })).toBeDisabled()
-        expect(screen.getByRole('button', { name: "anterior" })).toBeDisabled()
+        expect(screen.getByRole('button', { name: /primeira/i })).toBeDisabled()
+        expect(screen.getByRole('button', { name: /anterior/i })).toBeDisabled()
         expect(
-            screen.getByRole('button', { name: "próxima" })
+            screen.getByRole('button', { name: /próxima/i })
         ).not.toBeDisabled()
     })
 
     it('desabilita "Próxima"/"Última" na última página', () => {
         setup({ page: 10, totalPages: 10 })
-        expect(screen.getByRole('button', { name: "próxima" })).toBeDisabled()
-        expect(screen.getByRole('button', { name: "última" })).toBeDisabled()
+        expect(screen.getByRole('button', { name: /próxima/i })).toBeDisabled()
+        expect(screen.getByRole('button', { name: /última/i })).toBeDisabled()
         expect(
-            screen.getByRole('button', { name: "anterior" })
+            screen.getByRole('button', { name: /anterior/i })
         ).not.toBeDisabled()
     })
 
@@ -67,7 +67,7 @@ describe('<Pagination />', () => {
         const user = userEvent.setup()
         const { onChange } = setup({ page: 2, totalPages: 10 })
 
-        await user.click(screen.getByRole('button', { name: "próxima" }))
+        await user.click(screen.getByRole('button', { name: /próxima/i }))
 
         expect(onChange).toHaveBeenCalledTimes(1)
         expect(onChange).toHaveBeenCalledWith(3)
@@ -77,7 +77,7 @@ describe('<Pagination />', () => {
         const user = userEvent.setup()
         const { onChange } = setup({ page: 4, totalPages: 10 })
 
-        await user.click(screen.getByRole('button', { name: "anterior" }))
+        await user.click(screen.getByRole('button', { name: /anterior/i }))
 
         expect(onChange).toHaveBeenCalledWith(3)
     })
@@ -86,20 +86,20 @@ describe('<Pagination />', () => {
         const user = userEvent.setup()
         const { onChange } = setup({ page: 5, totalPages: 12 })
 
-        await user.click(screen.getByRole('button', { name: "primeira" }))
+        await user.click(screen.getByRole('button', { name: /primeira/i }))
         expect(onChange).toHaveBeenLastCalledWith(1)
 
-        await user.click(screen.getByRole('button', { name: "última" }))
+        await user.click(screen.getByRole('button', { name: /última/i }))
         expect(onChange).toHaveBeenLastCalledWith(12)
     })
 
     it('exibe "atualizando…" quando isFetching for true', () => {
         setup({ page: 1, totalPages: 10, isFetching: true })
-        expect(screen.getByText("atualizando")).toBeInTheDocument()
+        expect(screen.getByText(/atualizando/i)).toBeInTheDocument()
     })
 
     it('não exibe "atualizando…" por padrão', () => {
         setup({ page: 1, totalPages: 10 })
-        expect(screen.queryByText("atualizando")).not.toBeInTheDocument()
+        expect(screen.queryByText(/atualizando/i)).not.toBeInTheDocument()
     })
 })

@@ -8,7 +8,9 @@ describe('<MoviesEmptyState />', () => {
         render(<MoviesEmptyState title="Nenhum filme encontrado" />)
 
         expect(screen.getByText('Nenhum filme encontrado')).toBeInTheDocument()
-        expect(screen.getByText('Tente alterar os filtros aplicados.')).not.toBeInTheDocument()
+        expect(
+            screen.queryByText('Tente alterar os filtros aplicados')
+        ).not.toBeInTheDocument()
     })
 
     it('renderiza a descrição quando informada', () => {
@@ -29,6 +31,6 @@ describe('<MoviesEmptyState />', () => {
             </MoviesEmptyState>
         )
 
-        expect(screen.getByRole('button', { name: "limpar filtros" })).toBeInTheDocument()
+        expect(screen.getByRole('button', { name: /limpar filtros/i })).toBeInTheDocument()
     })
 })

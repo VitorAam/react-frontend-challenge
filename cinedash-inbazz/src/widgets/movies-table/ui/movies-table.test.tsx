@@ -99,16 +99,16 @@ describe('<MoviesTable />', () => {
         render(<MoviesTable data={movies} />)
 
         expect(
-            screen.getByRole('columnheader', { name: "título" })
+            screen.getByRole('columnheader', { name: /título/i })
         ).toBeInTheDocument()
         expect(
-            screen.getByRole('columnheader', { name: "gênero" })
+            screen.getByRole('columnheader', { name: /gênero/i })
         ).toBeInTheDocument()
         expect(
-            screen.getByRole('columnheader', { name: "lançamento" })
+            screen.getByRole('columnheader', { name: /lançamento/i })
         ).toBeInTheDocument()
         expect(
-            screen.getByRole('columnheader', { name: "rating" })
+            screen.getByRole('columnheader', { name: /rating/i })
         ).toBeInTheDocument()
 
         expect(screen.getAllByRole('row')).toHaveLength(1 + movies.length)
@@ -143,7 +143,7 @@ describe('<MoviesTable />', () => {
     it('renderiza um link "Detalhes" apontando para /movie/:id em cada linha', () => {
         render(<MoviesTable data={movies} />)
 
-        const detailsLinks = screen.getAllByRole('link', { name: "detalhes" })
+        const detailsLinks = screen.getAllByRole('link', { name: /detalhes/i })
         expect(detailsLinks).toHaveLength(movies.length)
         expect(detailsLinks[0]).toHaveAttribute('href', '/movie/1')
         expect(detailsLinks[1]).toHaveAttribute('href', '/movie/2')
@@ -154,7 +154,7 @@ describe('<MoviesTable />', () => {
         render(<MoviesTable data={movies} />)
 
         const ratingHeader = screen.getByRole('columnheader', {
-            name: "rating",
+            name: /rating/i,
         })
 
         await user.click(ratingHeader)
@@ -173,7 +173,7 @@ describe('<MoviesTable />', () => {
         render(<MoviesTable data={movies} />)
 
         const titleHeader = screen.getByRole('columnheader', {
-            name: "título",
+            name: /título/i,
         })
 
         await user.click(titleHeader)

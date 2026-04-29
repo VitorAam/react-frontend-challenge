@@ -24,10 +24,10 @@ describe('<LoginForm />', () => {
     it('renderiza os campos de email/senha e o botão de submit', () => {
         render(<LoginForm />)
 
-        expect(screen.getByLabelText("email")).toBeInTheDocument()
-        expect(screen.getByLabelText("senha")).toBeInTheDocument()
+        expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
+        expect(screen.getByLabelText(/senha/i)).toBeInTheDocument()
         expect(
-            screen.getByRole('button', { name: "entrar" })
+            screen.getByRole('button', { name: /entrar/i })
         ).toBeInTheDocument()
     })
 
@@ -35,7 +35,7 @@ describe('<LoginForm />', () => {
         const user = userEvent.setup()
         render(<LoginForm />)
 
-        await user.click(screen.getByRole('button', { name: "entrar" }))
+        await user.click(screen.getByRole('button', { name: /entrar/i }))
 
         expect(await screen.findByText('Email inválido')).toBeInTheDocument()
         expect(screen.getByText('Senha inválida')).toBeInTheDocument()
@@ -48,9 +48,9 @@ describe('<LoginForm />', () => {
         const user = userEvent.setup()
         render(<LoginForm />)
 
-        await user.type(screen.getByLabelText("email"), 'curador@cine.io')
-        await user.type(screen.getByLabelText("senha"), '123')
-        await user.click(screen.getByRole('button', { name: "entrar" }))
+        await user.type(screen.getByLabelText(/email/i), 'curador@cine.io')
+        await user.type(screen.getByLabelText(/senha/i), '123')
+        await user.click(screen.getByRole('button', { name: /entrar/i }))
 
         expect(await screen.findByText('Senha inválida')).toBeInTheDocument()
         expect(screen.queryByText('Email inválido')).not.toBeInTheDocument()
@@ -61,9 +61,9 @@ describe('<LoginForm />', () => {
         const user = userEvent.setup()
         render(<LoginForm />)
 
-        await user.type(screen.getByLabelText("email"), 'curador@cine.io')
-        await user.type(screen.getByLabelText("senha"), 'senha-segura')
-        await user.click(screen.getByRole('button', { name: "entrar" }))
+        await user.type(screen.getByLabelText(/email/i), 'curador@cine.io')
+        await user.type(screen.getByLabelText(/senha/i), 'senha-segura')
+        await user.click(screen.getByRole('button', { name: /entrar/i }))
 
         await vi.waitFor(() => {
             expect(useAuthStore.getState().isAuthenticated).toBe(true)

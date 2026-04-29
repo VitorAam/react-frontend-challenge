@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, UserRound } from 'lucide-react'
 
 import { getProfileUrl, type CastMember } from '@/entities/movie'
 import { Button } from '@/shared/ui/button'
+import { SmartImage } from '@/shared/ui/image'
 
 type MovieCastProps = {
     cast: CastMember[]
@@ -54,18 +55,19 @@ export const MovieCast = ({ cast, initialLimit = 12 }: MovieCastProps) => {
                             key={`${member.id}-${member.order}`}
                             className="flex flex-col gap-2 text-center"
                         >
-                            <div className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-full bg-muted ring-1 ring-foreground/10">
-                                {profile ? (
-                                    <img
-                                        src={profile}
-                                        alt={member.name}
-                                        loading="lazy"
-                                        className="h-full w-full object-cover"
-                                    />
-                                ) : (
-                                    <UserRound className="h-8 w-8 text-muted-foreground" />
-                                )}
-                            </div>
+                            <SmartImage
+                                src={profile}
+                                alt={member.name}
+                                loading="lazy"
+                                wrapperClassName="aspect-square w-full rounded-full bg-muted ring-1 ring-foreground/10"
+                                className="object-cover"
+                                fallback={
+                                    <div className="flex h-full w-full items-center justify-center">
+                                        <UserRound className="h-8 w-8 text-muted-foreground" />
+                                    </div>
+                                }
+                            />
+
                             <div className="space-y-0.5">
                                 <p className="text-sm font-medium leading-tight">
                                     {member.name}

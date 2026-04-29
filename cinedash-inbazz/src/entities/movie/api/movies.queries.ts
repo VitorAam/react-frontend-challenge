@@ -17,7 +17,8 @@ const haveSameFilters = (
     a.genreId === b.genreId &&
     a.year === b.year &&
     a.minRating === b.minRating &&
-    a.sortBy === b.sortBy
+    a.sortBy === b.sortBy &&
+    a.page === b.page
 
 export const useMoviesQuery = (filters: MoviesQueryFilters) =>
     useQuery({

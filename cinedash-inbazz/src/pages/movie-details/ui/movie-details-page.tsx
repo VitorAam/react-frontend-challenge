@@ -21,7 +21,7 @@ export const MovieDetailsPage = () => {
     const data = detailsQuery.data
 
     return (
-        <div className="mx-auto flex h-full w-full max-w-6xl flex-col gap-6 p-6">
+        <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col gap-6 p-6 pb-12">
             <div className="flex items-center gap-3">
                 <Button asChild variant="outline" size="sm">
                     <Link to="/movies">

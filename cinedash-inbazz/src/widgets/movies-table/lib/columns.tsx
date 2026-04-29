@@ -5,6 +5,7 @@ import type { Movie } from '@/entities/movie'
 import { getPosterUrl } from '@/entities/movie'
 import type { Genre } from '@/entities/genre'
 import { Button } from '@/shared/ui/button'
+import { SmartImage } from '@/shared/ui/image'
 import { formatDate, formatRating } from '@/shared/lib/format'
 
 export const buildMoviesColumns = (
@@ -21,16 +22,13 @@ export const buildMoviesColumns = (
 
             return (
                 <div className="flex items-center gap-3">
-                    <div className="h-14 w-10 shrink-0 overflow-hidden rounded-sm bg-muted">
-                        {poster ? (
-                            <img
-                                src={poster}
-                                alt={movie.title}
-                                loading="lazy"
-                                className="h-full w-full object-cover"
-                            />
-                        ) : null}
-                    </div>
+                    <SmartImage
+                        src={poster}
+                        alt={movie.title}
+                        loading="lazy"
+                        wrapperClassName="h-14 w-10 shrink-0 rounded-sm bg-muted"
+                        className="object-cover"
+                    />
                     <div className="flex flex-col">
                         <span className="font-medium leading-tight">
                             {movie.title}

@@ -5,6 +5,7 @@ import {
     getPosterUrl,
     type MovieDetails,
 } from '@/entities/movie'
+import { SmartImage } from '@/shared/ui/image'
 import { formatDate, formatRating } from '@/shared/lib/format'
 import { WatchlistToggle } from '@/features/watchlist'
 
@@ -33,16 +34,13 @@ export const MovieHero = ({ movie }: MovieHeroProps) => {
 
             <div className="relative z-10 grid gap-6 p-6 md:grid-cols-[220px_1fr] md:gap-8 md:p-10">
                 <div className="hidden md:block">
-                    <div className="aspect-2/3 w-full overflow-hidden rounded-lg bg-muted shadow-lg ring-1 ring-foreground/10">
-                        {poster ? (
-                            <img
-                                src={poster}
-                                alt={`Pôster de ${movie.title}`}
-                                className="h-full w-full object-cover"
-                                loading="eager"
-                            />
-                        ) : null}
-                    </div>
+                    <SmartImage
+                        src={poster}
+                        alt={`Pôster de ${movie.title}`}
+                        loading="eager"
+                        wrapperClassName="aspect-2/3 w-full rounded-lg bg-muted shadow-lg ring-1 ring-foreground/10"
+                        className="object-cover"
+                    />
                 </div>
 
                 <div className="flex flex-col gap-4">

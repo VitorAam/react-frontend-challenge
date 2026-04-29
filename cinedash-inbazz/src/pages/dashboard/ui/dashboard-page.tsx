@@ -33,7 +33,7 @@ export const DashboardPage = () => {
     const data = moviesQuery.data
 
     return (
-        <div className="mx-auto flex h-full max-w-7xl flex-col gap-6 p-6">
+        <div className="mx-auto flex min-h-full max-w-7xl flex-col gap-6 p-6 pb-12">
             <header className="flex flex-col gap-1">
                 <h1 className="font-heading text-3xl font-semibold">
                     Todos os filmes
@@ -65,15 +65,15 @@ export const DashboardPage = () => {
                     ) : (
                         <MoviesTable data={data.results} />
                     )}
-
-                    <Pagination
-                        page={page}
-                        totalPages={data.total_pages}
-                        onChange={setPage}
-                        isFetching={moviesQuery.isFetching}
-                    />
                 </>
             )}
+
+            <Pagination
+                page={page}
+                totalPages={data?.total_pages ?? 0}
+                onChange={setPage}
+                isFetching={moviesQuery.isFetching}
+            />
         </div>
     )
 }

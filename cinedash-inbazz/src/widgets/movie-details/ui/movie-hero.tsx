@@ -19,7 +19,7 @@ export const MovieHero = ({ movie }: MovieHeroProps) => {
     const poster = getPosterUrl(movie.poster_path, 'w500')
 
     return (
-        <section className="relative min-h-[360px] overflow-hidden rounded-xl border bg-card md:min-h-[420px]">
+        <section className="relative min-h-90 overflow-hidden rounded-xl border bg-card md:min-h-105">
             <div className="pointer-events-none absolute inset-0 z-0">
                 {backdrop && (
                     <div

@@ -8,6 +8,7 @@ import { WatchlistTable } from '@/widgets/watchlist-table'
 export const WatchlistPage = () => {
     const items = useWatchlistStore((state) => state.items)
     const clear = useWatchlistStore((state) => state.clear)
+    const moviesText = items.length > 1 ? 'filmes salvos' : 'filme salvo'
 
     return (
         <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-6 p-6">
@@ -19,7 +20,7 @@ export const WatchlistPage = () => {
                     <p className="text-sm text-muted-foreground">
                         {items.length === 0
                             ? 'Você ainda não tem filmes salvos.'
-                            : `${items.length} ${items.length === 1 ? 'filme salvo' : 'filmes salvos'}.`}
+                            : `${items.length} ${moviesText}.`}
                     </p>
                 </div>
 

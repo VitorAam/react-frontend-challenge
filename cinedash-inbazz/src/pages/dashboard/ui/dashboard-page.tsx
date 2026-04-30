@@ -70,9 +70,8 @@ export const DashboardPage = () => {
 
             <Pagination
                 page={page}
-                totalPages={data?.total_pages ?? 0}
+                totalPages={data?.total_pages ?? 1}
                 onChange={setPage}
-                isFetching={moviesQuery.isFetching}
             />
         </div>
     )

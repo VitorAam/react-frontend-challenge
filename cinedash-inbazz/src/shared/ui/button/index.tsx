@@ -51,7 +51,7 @@ export const Button = ({
 
     return (
         <Comp
-            className={cn(buttonVariants({ variant, size }), className)}
+            className={cn(buttonVariants({ variant, size }), className, "hover:cursor-pointer")}
             disabled={disabled || isLoading}
             {...props}
         >

@@ -88,11 +88,13 @@ const movies: Movie[] = [
     },
 ]
 
-const getRowTitles = () =>
-    screen
+const getRowTitles = () => {
+    const table = screen.getByRole('table')
+    return within(table)
         .getAllByRole('row')
         .slice(1)
         .map((row) => row.querySelector('td')?.textContent ?? '')
+}
 
 describe('<MoviesTable />', () => {
     it('renderiza os headers e a quantidade correta de linhas', () => {
@@ -111,29 +113,35 @@ describe('<MoviesTable />', () => {
             screen.getByRole('columnheader', { name: /rating/i })
         ).toBeInTheDocument()
 
-        expect(screen.getAllByRole('row')).toHaveLength(1 + movies.length)
+        const table = screen.getByRole('table')
+        expect(within(table).getAllByRole('row')).toHaveLength(
+            1 + movies.length
+        )
     })
 
     it('renderiza os títulos dos filmes nas linhas', () => {
         render(<MoviesTable data={movies} />)
 
-        expect(screen.getByText('Cidade de Deus')).toBeInTheDocument()
-        expect(screen.getByText('Tropa de Elite')).toBeInTheDocument()
-        expect(screen.getByText('Bacurau')).toBeInTheDocument()
+        const table = screen.getByRole('table')
+        expect(within(table).getByText('Cidade de Deus')).toBeInTheDocument()
+        expect(within(table).getByText('Tropa de Elite')).toBeInTheDocument()
+        expect(within(table).getByText('Bacurau')).toBeInTheDocument()
     })
 
     it('mostra os primeiros gêneros como chips usando o map vindo do hook', () => {
         render(<MoviesTable data={movies} />)
 
-        expect(screen.getAllByText('Crime')).toHaveLength(2)
-        expect(screen.getByText('Drama')).toBeInTheDocument()
-        expect(screen.getByText('Ação')).toBeInTheDocument()
+        const table = screen.getByRole('table')
+        expect(within(table).getAllByText('Crime')).toHaveLength(2)
+        expect(within(table).getByText('Drama')).toBeInTheDocument()
+        expect(within(table).getByText('Ação')).toBeInTheDocument()
     })
 
     it('exibe "—" na coluna de gênero quando o filme não tem genre_ids', () => {
         render(<MoviesTable data={movies} />)
 
-        const bacurauRow = screen.getByText('Bacurau').closest('tr')
+        const table = screen.getByRole('table')
+        const bacurauRow = within(table).getByText('Bacurau').closest('tr')
         expect(bacurauRow).not.toBeNull()
         expect(
             within(bacurauRow as HTMLElement).getByText('—')
@@ -143,7 +151,10 @@ describe('<MoviesTable />', () => {
     it('renderiza um link "Detalhes" apontando para /movie/:id em cada linha', () => {
         render(<MoviesTable data={movies} />)
 
-        const detailsLinks = screen.getAllByRole('link', { name: /detalhes/i })
+        const table = screen.getByRole('table')
+        const detailsLinks = within(table).getAllByRole('link', {
+            name: /detalhes/i,
+        })
         expect(detailsLinks).toHaveLength(movies.length)
         expect(detailsLinks[0]).toHaveAttribute('href', '/movie/1')
         expect(detailsLinks[1]).toHaveAttribute('href', '/movie/2')

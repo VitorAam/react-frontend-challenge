@@ -4,7 +4,6 @@ type PaginationProps = {
     page: number
     totalPages: number
     onChange: (page: number) => void
-    isFetching?: boolean
 }
 
 const TMDB_MAX_PAGE = 500
@@ -13,7 +12,6 @@ export const Pagination = ({
     page,
     totalPages,
     onChange,
-    isFetching,
 }: PaginationProps) => {
     const safeTotal = Math.min(totalPages, TMDB_MAX_PAGE)
     const isFirst = page <= 1
@@ -25,9 +23,6 @@ export const Pagination = ({
                 Página{' '}
                 <strong className="text-foreground">{page}</strong> de{' '}
                 <strong className="text-foreground">{safeTotal || 1}</strong>
-                {isFetching && (
-                    <span className="ml-2 italic">atualizando…</span>
-                )}
             </span>
 
             <div className="flex items-center gap-2">
@@ -37,8 +32,9 @@ export const Pagination = ({
                     className="cursor-pointer"
                     onClick={() => onChange(1)}
                     disabled={isFirst}
+                    aria-label="Primeira página"
                 >
-                    Primeira
+                    {'<<'}
                 </Button>
                 <Button
                     variant="outline"
@@ -46,8 +42,9 @@ export const Pagination = ({
                     className="cursor-pointer"
                     onClick={() => onChange(page - 1)}
                     disabled={isFirst}
+                    aria-label="Página anterior"
                 >
-                    Anterior
+                    {'<'}
                 </Button>
                 <Button
                     variant="outline"
@@ -55,8 +52,9 @@ export const Pagination = ({
                     className="cursor-pointer"
                     onClick={() => onChange(page + 1)}
                     disabled={isLast}
+                    aria-label="Próxima página"
                 >
-                    Próxima
+                    {'>'}
                 </Button>
                 <Button
                     variant="outline"
@@ -64,8 +62,9 @@ export const Pagination = ({
                     className="cursor-pointer"
                     onClick={() => onChange(safeTotal)}
                     disabled={isLast}
+                    aria-label="Última página"
                 >
-                    Última
+                    {'>>'}
                 </Button>
             </div>
         </div>

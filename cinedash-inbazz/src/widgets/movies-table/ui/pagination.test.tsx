@@ -92,14 +92,4 @@ describe('<Pagination />', () => {
         await user.click(screen.getByRole('button', { name: /última/i }))
         expect(onChange).toHaveBeenLastCalledWith(12)
     })
-
-    it('exibe "atualizando…" quando isFetching for true', () => {
-        setup({ page: 1, totalPages: 10, isFetching: true })
-        expect(screen.getByText(/atualizando/i)).toBeInTheDocument()
-    })
-
-    it('não exibe "atualizando…" por padrão', () => {
-        setup({ page: 1, totalPages: 10 })
-        expect(screen.queryByText(/atualizando/i)).not.toBeInTheDocument()
-    })
 })

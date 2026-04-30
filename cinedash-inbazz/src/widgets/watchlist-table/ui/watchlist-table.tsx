@@ -26,6 +26,7 @@ import {
 } from '@/features/watchlist'
 
 import { buildGenreMap, buildWatchlistColumns } from '../lib/columns'
+import { WatchlistCardList } from './watchlist-card-list'
 
 type WatchlistTableProps = {
     data: WatchlistMovie[]
@@ -62,62 +63,73 @@ export const WatchlistTable = ({ data }: WatchlistTableProps) => {
     })
 
     return (
-        <div className="rounded-lg border bg-card">
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => {
-                                const canSort = header.column.getCanSort()
-                                const sorted = header.column.getIsSorted()
-                                return (
-                                    <TableHead
-                                        key={header.id}
-                                        className={cn(
-                                            canSort &&
-                                                'cursor-pointer select-none'
-                                        )}
-                                        onClick={
-                                            canSort
-                                                ? header.column.getToggleSortingHandler()
-                                                : undefined
-                                        }
-                                    >
-                                        {header.isPlaceholder ? null : (
-                                            <span className="inline-flex items-center gap-1.5">
-                                                {flexRender(
-                                                    header.column.columnDef.header,
-                                                    header.getContext()
-                                                )}
-                                                {canSort && (
-                                                    <SortIcon
-                                                        direction={sorted}
-                                                    />
-                                                )}
-                                            </span>
-                                        )}
-                                    </TableHead>
-                                )
-                            })}
-                        </TableRow>
-                    ))}
-                </TableHeader>
+        <>
+            <div className="md:hidden">
+                <WatchlistCardList
+                    data={data}
+                    genresById={genresById}
+                    onRemove={remove}
+                />
+            </div>
 
-                <TableBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <TableRow key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext()
-                                    )}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
+            <div className="hidden rounded-lg border bg-card md:block">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    const canSort = header.column.getCanSort()
+                                    const sorted = header.column.getIsSorted()
+                                    return (
+                                        <TableHead
+                                            key={header.id}
+                                            className={cn(
+                                                canSort &&
+                                                    'cursor-pointer select-none'
+                                            )}
+                                            onClick={
+                                                canSort
+                                                    ? header.column.getToggleSortingHandler()
+                                                    : undefined
+                                            }
+                                        >
+                                            {header.isPlaceholder ? null : (
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    {flexRender(
+                                                        header.column.columnDef
+                                                            .header,
+                                                        header.getContext()
+                                                    )}
+                                                    {canSort && (
+                                                        <SortIcon
+                                                            direction={sorted}
+                                                        />
+                                                    )}
+                                                </span>
+                                            )}
+                                        </TableHead>
+                                    )
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+
+                    <TableBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <TableRow key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+        </>
     )
 }

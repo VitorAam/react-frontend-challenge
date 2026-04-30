@@ -1,13 +1,13 @@
 import { Link } from '@tanstack/react-router'
 
-import { useWatchlistStore } from '@/features/watchlist'
+import { useWatchlistActions, useWatchlistStore } from '@/features/watchlist'
 import { Button } from '@/shared/ui/button'
 import { MoviesEmptyState } from '@/widgets/movies-table'
 import { WatchlistTable } from '@/widgets/watchlist-table'
 
 export const WatchlistPage = () => {
     const items = useWatchlistStore((state) => state.items)
-    const clear = useWatchlistStore((state) => state.clear)
+    const { clear } = useWatchlistActions()
     const moviesText = items.length > 1 ? 'filmes salvos' : 'filme salvo'
 
     return (

@@ -1,10 +1,9 @@
 import { Bookmark, BookmarkCheck } from 'lucide-react'
 
 import { Button } from '@/shared/ui/button'
-import {
-    useIsInWatchlist,
-    useWatchlistStore,
-} from '../model/watchlist.store'
+
+import { useWatchlistActions } from '../lib/use-watchlist-actions'
+import { useIsInWatchlist } from '../model/watchlist.store'
 import type { WatchlistMovie } from '../model/watchlist.types'
 
 type WatchlistToggleProps = {
@@ -19,13 +18,21 @@ export const WatchlistToggle = ({
     className,
 }: WatchlistToggleProps) => {
     const isInWatchlist = useIsInWatchlist(movie.id)
-    const toggle = useWatchlistStore((state) => state.toggle)
+    const { add, remove } = useWatchlistActions()
+
+    const handleClick = () => {
+        if (isInWatchlist) {
+            remove({ id: movie.id, title: movie.title })
+        } else {
+            add(movie)
+        }
+    }
 
     return (
         <Button
             variant={isInWatchlist ? 'secondary' : 'default'}
             size={size}
-            onClick={() => toggle(movie)}
+            onClick={handleClick}
             aria-pressed={isInWatchlist}
             className={className}
         >

@@ -10,9 +10,10 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardTitle
+    CardTitle,
 } from '@/shared/ui/card'
 import { useNavigate } from '@tanstack/react-router'
+import { getErrorMessage, toast } from '@/shared/lib/toast'
 
 export const LoginForm = () => {
     const login = useAuthStore((state) => state.login)
@@ -27,8 +28,13 @@ export const LoginForm = () => {
     })
 
     const onSubmit = (data: LoginFormData) => {
-        login(data.email)
-        navigate({ to: '/movies' })
+        try {
+            login(data.email)
+            toast.success('Bem-vindo!', `Sessão iniciada como ${data.email}.`)
+            navigate({ to: '/movies' })
+        } catch (error) {
+            toast.error('Não foi possível entrar', getErrorMessage(error))
+        }
     }
 
     return (

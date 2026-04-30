@@ -1,6 +1,6 @@
 'use no memo'
 
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import {
     flexRender,
     getCoreRowModel,
@@ -21,7 +21,7 @@ import {
 import { cn } from '@/shared/lib/utils'
 import { useMovieGenres } from '@/entities/genre'
 import {
-    useWatchlistStore,
+    useWatchlistActions,
     type WatchlistMovie,
 } from '@/features/watchlist'
 
@@ -41,16 +41,24 @@ const SortIcon = ({ direction }: { direction: false | 'asc' | 'desc' }) => {
 export const WatchlistTable = ({ data }: WatchlistTableProps) => {
     const [sorting, setSorting] = useState<SortingState>([])
     const genresQuery = useMovieGenres()
-    const remove = useWatchlistStore((state) => state.remove)
+    const { remove } = useWatchlistActions()
 
     const genresById = useMemo(
         () => buildGenreMap(genresQuery.data),
         [genresQuery.data]
     )
 
+    const handleRemove = useCallback(
+        (id: number) => {
+            const target = data.find((movie) => movie.id === id)
+            remove({ id, title: target?.title ?? '' })
+        },
+        [data, remove]
+    )
+
     const columns = useMemo(
-        () => buildWatchlistColumns({ genresById, onRemove: remove }),
-        [genresById, remove]
+        () => buildWatchlistColumns({ genresById, onRemove: handleRemove }),
+        [genresById, handleRemove]
     )
 
     const table = useReactTable({
@@ -68,7 +76,7 @@ export const WatchlistTable = ({ data }: WatchlistTableProps) => {
                 <WatchlistCardList
                     data={data}
                     genresById={genresById}
-                    onRemove={remove}
+                    onRemove={handleRemove}
                 />
             </div>
 

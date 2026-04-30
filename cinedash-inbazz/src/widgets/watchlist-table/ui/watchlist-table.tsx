@@ -1,0 +1,143 @@
+'use no memo'
+
+import { useCallback, useMemo, useState } from 'react'
+import {
+    flexRender,
+    getCoreRowModel,
+    getSortedRowModel,
+    useReactTable,
+    type SortingState,
+} from '@tanstack/react-table'
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/shared/ui/table'
+import { cn } from '@/shared/lib/utils'
+import { useMovieGenres } from '@/entities/genre'
+import {
+    useWatchlistActions,
+    type WatchlistMovie,
+} from '@/features/watchlist'
+
+import { buildGenreMap, buildWatchlistColumns } from '../lib/columns'
+import { WatchlistCardList } from './watchlist-card-list'
+
+type WatchlistTableProps = {
+    data: WatchlistMovie[]
+}
+
+const SortIcon = ({ direction }: { direction: false | 'asc' | 'desc' }) => {
+    if (direction === 'asc') return <ArrowUp className="h-3.5 w-3.5" />
+    if (direction === 'desc') return <ArrowDown className="h-3.5 w-3.5" />
+    return <ArrowUpDown className="h-3.5 w-3.5 opacity-40" />
+}
+
+export const WatchlistTable = ({ data }: WatchlistTableProps) => {
+    const [sorting, setSorting] = useState<SortingState>([])
+    const genresQuery = useMovieGenres()
+    const { remove } = useWatchlistActions()
+
+    const genresById = useMemo(
+        () => buildGenreMap(genresQuery.data),
+        [genresQuery.data]
+    )
+
+    const handleRemove = useCallback(
+        (id: number) => {
+            const target = data.find((movie) => movie.id === id)
+            remove({ id, title: target?.title ?? '' })
+        },
+        [data, remove]
+    )
+
+    const columns = useMemo(
+        () => buildWatchlistColumns({ genresById, onRemove: handleRemove }),
+        [genresById, handleRemove]
+    )
+
+    const table = useReactTable({
+        data,
+        columns,
+        state: { sorting },
+        onSortingChange: setSorting,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+    })
+
+    return (
+        <>
+            <div className="md:hidden">
+                <WatchlistCardList
+                    data={data}
+                    genresById={genresById}
+                    onRemove={handleRemove}
+                />
+            </div>
+
+            <div className="hidden rounded-lg border bg-card md:block">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    const canSort = header.column.getCanSort()
+                                    const sorted = header.column.getIsSorted()
+                                    return (
+                                        <TableHead
+                                            key={header.id}
+                                            className={cn(
+                                                canSort &&
+                                                    'cursor-pointer select-none'
+                                            )}
+                                            onClick={
+                                                canSort
+                                                    ? header.column.getToggleSortingHandler()
+                                                    : undefined
+                                            }
+                                        >
+                                            {header.isPlaceholder ? null : (
+                                                <span className="inline-flex items-center gap-1.5">
+                                                    {flexRender(
+                                                        header.column.columnDef
+                                                            .header,
+                                                        header.getContext()
+                                                    )}
+                                                    {canSort && (
+                                                        <SortIcon
+                                                            direction={sorted}
+                                                        />
+                                                    )}
+                                                </span>
+                                            )}
+                                        </TableHead>
+                                    )
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+
+                    <TableBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <TableRow key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+        </>
+    )
+}

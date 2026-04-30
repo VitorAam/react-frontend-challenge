@@ -1,0 +1,73 @@
+import {
+  createRouter,
+  createRootRoute,
+  createRoute,
+  redirect,
+} from '@tanstack/react-router'
+
+import { RootLayout } from '../layouts/root-layout'
+import { LoginPage } from '@/pages/login'
+import { DashboardPage } from '@/pages/dashboard'
+import { MovieDetailsPage } from '@/pages/movie-details'
+import { WatchlistPage } from '@/pages/watchlist'
+import { useAuthStore } from '@/features/auth'
+
+const isAuthenticated = () => {
+  return useAuthStore.getState().isAuthenticated
+}
+
+const rootRoute = createRootRoute({
+  component: RootLayout,
+})
+
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  component: LoginPage,
+  beforeLoad: () => {
+    if (isAuthenticated()) {
+      throw redirect({ to: '/movies' })
+    }
+  },
+})
+
+const privateRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: 'private',
+  beforeLoad: () => {
+    if (!isAuthenticated()) {
+      throw redirect({ to: '/' })
+    }
+  },
+})
+
+const dashboardRoute = createRoute({
+  getParentRoute: () => privateRoute,
+  path: '/movies',
+  component: DashboardPage,
+})
+
+const watchlistRoute = createRoute({
+  getParentRoute: () => privateRoute,
+  path: '/watchlist',
+  component: WatchlistPage,
+})
+
+const movieDetailsRoute = createRoute({
+  getParentRoute: () => privateRoute,
+  path: '/movie/$movieId',
+  component: MovieDetailsPage,
+})
+
+const routeTree = rootRoute.addChildren([
+  loginRoute,
+  privateRoute.addChildren([
+    dashboardRoute,
+    watchlistRoute,
+    movieDetailsRoute,
+  ]),
+])
+
+export const router = createRouter({
+  routeTree,
+})
